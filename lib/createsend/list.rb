@@ -103,8 +103,8 @@ module CreateSend
       response = get "active", options
       response = Hashie::Mash.new(response)
       # Sort out CM's shite CustomFields output
-      custom_fields = response.Results.first.CustomFields
-      response.Results.first.CustomFields = custom_fields.each_with_object({}) do |field, hsh|
+      custom_fields = response.Results.CustomFields
+      response.Results.CustomFields = custom_fields.each_with_object({}) do |field, hsh|
         key = field.Key.gsub(/\s/, '_').downcase.to_sym
         hsh[key] = field.Value
       end
