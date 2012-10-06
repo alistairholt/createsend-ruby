@@ -105,7 +105,8 @@ module CreateSend
       # Sort out CM's shite CustomFields output
       custom_fields = response.Results.first.CustomFields
       response.Results.first.CustomFields = custom_fields.each_with_object({}) do |field, hsh|
-        hsh[field.Key] = field.Value
+        key = field.Key.gsub(/\s/, '_').downcase.to_sym
+        hsh[key] = field.Value
       end
       response
     end
