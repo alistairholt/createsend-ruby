@@ -101,7 +101,12 @@ module CreateSend
         :orderfield => order_field,
         :orderdirection => order_direction } }
       response = get "active", options
-      Hashie::Mash.new(response)
+      response = Hashie::Mash.new(response)
+      # Sort out CM's shite CustomFields output
+      custom_fields = response.Results.CustomFields
+      response.Results.CustomFields = custom_fields.each_with_object({}) do |field, hsh|
+        hsh[field.Key] = field.Value
+      end
     end
 
     # Gets the bounced subscribers for this list.
