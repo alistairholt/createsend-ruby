@@ -107,6 +107,7 @@ module CreateSend
       response.Results.CustomFields = custom_fields.each_with_object({}) do |field, hsh|
         hsh[field.Key] = field.Value
       end
+      response
     end
 
     # Gets the bounced subscribers for this list.
