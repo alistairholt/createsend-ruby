@@ -102,7 +102,7 @@ module CreateSend
         :orderdirection => order_direction } }
       response = get "active", options
 
-      reponse['Results']['CustomFields'] = reponse['Results']['CustomFields'].each_with_object({}) do |field, hsh|
+      response['Results']['CustomFields'] = response['Results']['CustomFields'].each_with_object({}) do |field, hsh|
         key = field.Key.gsub(/\s/, '_').downcase.to_sym
         hsh[key] = field.Value
       end
