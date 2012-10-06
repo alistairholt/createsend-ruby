@@ -102,12 +102,15 @@ module CreateSend
         :orderdirection => order_direction } }
       response = get "active", options
 
-      response['Results']['CustomFields'] = response['Results']['CustomFields'].each_with_object({}) do |field, hsh|
-        key = field.Key.gsub(/\s/, '_').downcase.to_sym
-        hsh[key] = field.Value
+      response = Hashie::Mash.new(response)
+      response.Results.each do |result|
+        custom_fields = result.CustomFields
+        result.CustomFields = custom_fields.each_with_object({}) do |field, hsh|
+          key = field.Key.gsub(/\s/, '_').downcase.to_sym
+          hsh[key] = field.Value
+        end
       end
-
-      Hashie::Mash.new(response)
+      response
     end
 
     # Gets the bounced subscribers for this list.
